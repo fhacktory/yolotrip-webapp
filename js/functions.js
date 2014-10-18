@@ -5,6 +5,7 @@ function drawMarker(map, position) {
 	    map: map,
 	   });
 	marker.setMap(map);
+	return marker;
 }
 
 function setRelation() {
@@ -13,20 +14,26 @@ function setRelation() {
 	var Roadtrip = Parse.Object.extend("Roadtrip");
 	var Location = Parse.Object.extend("Location");
 	var Photo = Parse.Object.extend("Photo");
+	var Message = Parse.Object.extend("Message");
 
-	query = new Parse.Query(User);
+
+	query = new Parse.Query(Location);
 	query.find({
 	  success: function(results) {
 	  	console.log(results);
-	    query2 = new Parse.Query(Roadtrip);
+	    query2 = new Parse.Query(Message);
 
 	  	for (var i = 0; i < results.length; i++) { 
-	      query2.first({
-			  success: function(result2) {
-			  	console.log(result2);
-			  	query2 = new Parse.Query(Photo);
-				result2.relation("user").add(results[0]);
-				result2.save();
+	      query2.find({
+			  success: function(results2) {
+			  	console.log(i);
+			  	console.log(results[i]);
+
+			  	for (var i = 0; i < results2.length; i++) { 
+			  		results2[i].relation("location").add(results[i]);
+					results2[i].save();
+			  	}
+				
 			  },
 			  error: function(error) {
 			    console.log("Error: " + error.code + " " + error.message);

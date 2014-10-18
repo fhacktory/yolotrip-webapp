@@ -23,7 +23,7 @@ app_router.on('route:index', function(actions) {
 	        map = new google.maps.Map(document.getElementById('map-canvas'),
 	            mapOptions);
 	      }
-	google.maps.event.addDomListener(window, 'load', initialize);
+	
 
 	/* PARSE ******************************/
 	setRelation();
@@ -35,7 +35,7 @@ app_router.on('route:index', function(actions) {
 
 	var query = null;
 
-	var roadtrip, location, photo = null;
+	var roadtrip, location, photo, marker = null;
 
 	query = new Parse.Query(Roadtrip);
 	query.find().then(function(roadtrips){
@@ -47,13 +47,35 @@ app_router.on('route:index', function(actions) {
 	}).then(function(locations){
 		$.each(locations, function(index, location) {
 			console.log(location);
-			console.log(location.get("coordinates").latitude);
-		    drawMarker(map, { lat: location.get("coordinates").latitude, lng:  location.get("coordinates").longitude } );
-		}); 	
+		    marker = drawMarker(map, { lat: location.get("coordinates").latitude, lng:  location.get("coordinates").longitude } );
+			query = new Parse.Query(Photo);
+			query.equalTo("location", location);
+			query.first({
+				  success: function(photo) {
+				  	console.log("nianaaniania");
+				  	console.log(photo);
+
+				  	photoUrl = photo.get("file").url();
+				  	console.log(photo);
+				  	console.log(photoUrl);
+				      var contentString = '<img src="'+photoUrl+'" width="300"/>';
+					  var infowindow = new google.maps.InfoWindow({
+					      content: contentString
+					  });
+					  google.maps.event.addListener(marker, 'click', function() {
+				    	  infowindow.open(map,marker);
+					  });
+				  },
+				  error: function(error) {
+				    alert("Error: " + error.code + " " + error.message);
+				  }
+			});
+		}); 
 	}, function(error) {
 		console.log("Error: " + error.code + " " + error.message);
 	});
 
+	google.maps.event.addDomListener(window, 'load', initialize);
 
 });
 
