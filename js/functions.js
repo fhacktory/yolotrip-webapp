@@ -27,8 +27,6 @@ function setRelation() {
 	  	for (var i = 0; i < results.length; i++) { 
 	      query2.find({
 			  success: function(results2) {
-			  	console.log(i);
-			  	console.log(results[i]);
 
 			  	for (var i = 0; i < results2.length; i++) { 
 			  		results2[i].relation("location").add(results[i]);

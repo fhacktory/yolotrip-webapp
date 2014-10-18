@@ -1,7 +1,8 @@
 var AppRouter = Backbone.Router.extend({
     routes: {
         "": "index",
-        "test/:id": "test"
+        "test/:id": "test",
+        ":username/roadtrip/:roadtripname": "roadtrip"
     }
 });
 
@@ -10,7 +11,12 @@ var app_router = new AppRouter;
 
 // index.html
 app_router.on('route:index', function(actions) {
-    console.log('index');
+	console.log("Hello l'index à ta maman");
+});
+
+app_router.on('route:roadtrip', function(userslug, roadtripslug) {
+    console.log(userslug);
+    console.log(roadtripslug);
 
 	/* GOOGLE APIS ************************/
 	var map = null;
@@ -26,7 +32,6 @@ app_router.on('route:index', function(actions) {
 	
 
 	/* PARSE ******************************/
-	setRelation();
 
 	var User = Parse.Object.extend("User");
 	var Roadtrip = Parse.Object.extend("Roadtrip");
@@ -38,42 +43,55 @@ app_router.on('route:index', function(actions) {
 	var roadtrip, location, photo = null;
 	var  infowindow = new google.maps.InfoWindow();
 
-
-	// roadtrip
-	query = new Parse.Query(Roadtrip);
-	query.find().then(function(roadtrips){
-		roadtrip = roadtrips[0];
-		$("h1#roadtripName").html(roadtrip.get("title"));
-		// locations
-		query = new Parse.Query(Location);
-		query.equalTo("roadtrip", roadtrip);
-		query.include('photosArray');
-		query.find({
-			success: function(savedLocations) {
-		    console.log('location length'+savedLocations.length);
-		    for(var i=0; i<savedLocations.length; i++) {
-		    	location = savedLocations[i];
-		    	var photos = location.get('photosArray');
-		    	var marker = drawMarker(map, { lat: location.get("coordinates").latitude, lng:  location.get("coordinates").longitude }, photos.length );
-		    	var contentString = "";
-		    	for (var j=0; j<photos.length; j++) {
-		    		contentString += '<img src="'+photos[j].get('file').url()+'" width="300"/><br />';
-		    	}
-		    	  marker.contentString = contentString;
-				  google.maps.event.addListener(marker, 'click', function() {
-				  	infowindow.close();
-			        infowindow = new google.maps.InfoWindow({
-					      content: this.contentString
+	// user
+	query = new Parse.Query(User);
+	query.equalTo("slug", userslug);
+	query.first().then(function(user) {
+		if(user != undefined) {
+			query = new Parse.Query(Roadtrip);
+			query.equalTo("slug", roadtripslug);
+			query.equalTo("user", user);
+			return query.first();
+		} else {
+			return Parse.Promise.error("There is no such user");
+		}
+	}).then(function(roadtrip) {
+		if(roadtrip != null) {
+			$("h1#roadtripName").html(roadtrip.get("title"));
+			// locations
+			query = new Parse.Query(Location);
+			query.equalTo("roadtrip", roadtrip);
+			query.include('photosArray');
+			query.find({
+				success: function(savedLocations) {
+			    console.log('location length'+savedLocations.length);
+			    for(var i=0; i<savedLocations.length; i++) {
+			    	location = savedLocations[i];
+			    	var photos = location.get('photosArray');
+			    	var marker = drawMarker(map, { lat: location.get("coordinates").latitude, lng:  location.get("coordinates").longitude }, photos.length );
+			    	var contentString = "";
+			    	for (var j=0; j<photos.length; j++) {
+			    		contentString += '<img src="'+photos[j].get('file').url()+'" width="300"/><br />';
+			    	}
+			    	  marker.contentString = contentString;
+					  google.maps.event.addListener(marker, 'click', function() {
+					  	infowindow.close();
+				        infowindow = new google.maps.InfoWindow({
+						      content: this.contentString
+						  });
+				    	  infowindow.open(map,this);
 					  });
-			    	  infowindow.open(map,this);
-				  });
-		    }
-		  }
-		});
+			    }
+			  }
+			});
+		} else {
+			return Parse.Promise.error("There is no such roadtrip for this user");
+		}
 
 	}, function(error) {
 		console.log("Error: " + error.code + " " + error.message);
 	});
+
 
 	google.maps.event.addDomListener(window, 'load', initialize);
 
