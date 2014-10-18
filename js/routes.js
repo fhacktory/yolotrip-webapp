@@ -17,7 +17,7 @@ app_router.on('route:index', function(actions) {
 	var focus = { lat: -34.397, lng: 150.644};
 	var mapOptions = {
 	  center: focus,
-	  zoom: 8
+	  zoom: 4
 	};
 	function initialize() {
 	        map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -40,7 +40,7 @@ app_router.on('route:index', function(actions) {
 	query = new Parse.Query(Roadtrip);
 	query.find().then(function(roadtrips){
 		roadtrip = roadtrips[0];
-		console.log(roadtrip);
+		$("h1#roadtripName").html(roadtrip.get("title"));
 		query = new Parse.Query(Location);
 		query.equalTo("roadtrip", roadtrip);
 		return query.find();
@@ -54,17 +54,18 @@ app_router.on('route:index', function(actions) {
 				  success: function(photo) {
 				  	console.log("nianaaniania");
 				  	console.log(photo);
-
+				  	if (photo != undefined) {
 				  	photoUrl = photo.get("file").url();
-				  	console.log(photo);
-				  	console.log(photoUrl);
-				      var contentString = '<img src="'+photoUrl+'" width="300"/>';
-					  var infowindow = new google.maps.InfoWindow({
-					      content: contentString
-					  });
-					  google.maps.event.addListener(marker, 'click', function() {
-				    	  infowindow.open(map,marker);
-					  });
+					  	console.log(photo);
+					  	console.log(photoUrl);
+					      var contentString = '<img src="'+photoUrl+'" width="300"/>';
+						  var infowindow = new google.maps.InfoWindow({
+						      content: contentString
+						  });
+						  google.maps.event.addListener(marker, 'click', function() {
+					    	  infowindow.open(map,marker);
+						  });
+					}
 				  },
 				  error: function(error) {
 				    alert("Error: " + error.code + " " + error.message);
@@ -76,6 +77,8 @@ app_router.on('route:index', function(actions) {
 	});
 
 	google.maps.event.addDomListener(window, 'load', initialize);
+
+
 
 });
 
