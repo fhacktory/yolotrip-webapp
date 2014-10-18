@@ -35,7 +35,7 @@ app_router.on('route:index', function(actions) {
 
 	var query = null;
 
-	var roadtrip, location, photo, marker = null;
+	var roadtrip, location, photo = null;
 
 	// roadtrip
 	query = new Parse.Query(Roadtrip);
@@ -45,37 +45,29 @@ app_router.on('route:index', function(actions) {
 		// locations
 		query = new Parse.Query(Location);
 		query.equalTo("roadtrip", roadtrip);
-		return query.find();
-	}).then(function(locations){
-		$.each(locations, function(index, location) {
-			console.log(location);
-		    var marker = drawMarker(map, { lat: location.get("coordinates").latitude, lng:  location.get("coordinates").longitude } );
-			console.log("marker before photo");
-			console.log(marker);
-			query = new Parse.Query(Photo);
-			query.equalTo("location", location);
+		query.include('photosArray');
+		query.find({
+			success: function(savedLocations) {
+		    console.log('location length'+savedLocations.length);
+		    for(var i=0; i<savedLocations.length; i++) {
+		    	location = savedLocations[i];
+		    	var photos = location.get('photosArray');
+		    	var marker = drawMarker(map, { lat: location.get("coordinates").latitude, lng:  location.get("coordinates").longitude }, photos.length );
+		    	var contentString = "";
+		    	for (var j=0; j<photos.length; j++) {
+		    		contentString += '<img src="'+photos[j].get('file').url()+'" width="300"/><br />';
+		    	}
+		    	  marker.contentString = contentString;
+				  google.maps.event.addListener(marker, 'click', function() {
+			          var infowindow = new google.maps.InfoWindow({
+					      content: this.contentString
+					  });
+			    	  infowindow.open(map,this);
+				  });
+		    }
+		  }
+		});
 
-			query.find().then(function(photos) {
-				for (var i = 0; i < photos.length; i++) { 
-				  	if (photos[i] != undefined) {
-				  		console.log("PHOTO NOT NULL");
-				  		console.log(marker);
-  						photoUrl = photos[i].get("file").url();
-					      var contentString = '<img src="'+photoUrl+'" width="300"/>';
-						  var infowindow = new google.maps.InfoWindow({
-						      content: contentString
-						  });
-						  
-						  google.maps.event.addListener(marker, 'click', function() {
-					    	  infowindow.open(map,marker);
-						  });
-					}
-				}
-			})
-
-
-
-		}); 
 	}, function(error) {
 		console.log("Error: " + error.code + " " + error.message);
 	});
@@ -93,3 +85,17 @@ app_router.on('route:test', function(id) {
 
 // Start Backbone history a necessary step for bookmarkable URL's
 Backbone.history.start();
+
+/*var query = new Parse.Query(Parse.Object.extend("Location"));
+query.include('photosArray');
+query.find({
+	success: function(savedLocations) {
+    console.log('location length'+savedLocations.length);
+    for(var i=0; i<savedLocations.length; i++) {
+    	var photos = savedLocations[i].get('photosArray');
+    	for (var j=0; j<photos.length; j++) {
+    		console.log(photos[j].get('fake'));
+    	}
+    }
+  }
+});*/

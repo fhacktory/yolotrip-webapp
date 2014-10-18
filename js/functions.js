@@ -1,7 +1,8 @@
 /* DRAWING ON THE MAP *****************/
-function drawMarker(map, position) {
+function drawMarker(map, position, photoNumber) {
 	var marker = new google.maps.Marker({
 	    position: position,
+	    icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld='+photoNumber+'|FE6256|000000',
 	    map: map,
 	   });
 	marker.setMap(map);
