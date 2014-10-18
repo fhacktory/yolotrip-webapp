@@ -36,6 +36,8 @@ app_router.on('route:index', function(actions) {
 	var query = null;
 
 	var roadtrip, location, photo = null;
+	var  infowindow = new google.maps.InfoWindow();
+
 
 	// roadtrip
 	query = new Parse.Query(Roadtrip);
@@ -59,7 +61,8 @@ app_router.on('route:index', function(actions) {
 		    	}
 		    	  marker.contentString = contentString;
 				  google.maps.event.addListener(marker, 'click', function() {
-			          var infowindow = new google.maps.InfoWindow({
+				  	infowindow.close();
+			        infowindow = new google.maps.InfoWindow({
 					      content: this.contentString
 					  });
 			    	  infowindow.open(map,this);
