@@ -1,2 +1,5 @@
 # Les fichiers de l'IDE qui font chier
 .idea
+
+# Les composants bower
+bower_components
