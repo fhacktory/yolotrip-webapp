@@ -1,0 +1,17 @@
+{
+  "name": "yolotrip-webapp",
+  "version": "0.0.0",
+  "homepage": "https://github.com/fhacktory/yolotrip-webapp",
+  "main": "index.html",
+  "license": "GNU/GPL2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.1.2"
+  }
+}
