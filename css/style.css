@@ -28,12 +28,17 @@ h1#roadtripName {
   left: 0;
   position: absolute;
   right: 0;
+  text-align: center;
   top: 0;
 }
 
 #image-wrapper img {
   background-color: #fff;
-  margin: 100px auto 0;
+  height: auto;
+  line-height: 100%;
+  margin: 10% auto;
+  overflow: hidden;
   padding: 20px;
   position: relative;
+  vertical-align: middle;
 }
