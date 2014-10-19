@@ -57,6 +57,7 @@ p#username {
   right: 0;
   text-align: center;
   top: 0;
+  z-index: 2000;
 }
 
 #image-wrapper img {

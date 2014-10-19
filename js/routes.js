@@ -19,7 +19,7 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
 	var focus = { lat: -30.397, lng: 150.644};
 	var mapOptions = {
 	  center: focus,
-	  zoom: 4
+	  zoom: 3
 	};
 	var styles = [
 	  {
