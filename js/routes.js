@@ -25,9 +25,59 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
 	  center: focus,
 	  zoom: 4
 	};
+	var styles = [
+	  {
+	    "featureType": "administrative",
+	    "elementType": "labels.text",
+	    "stylers": [
+	      { "gamma": 2.44 },
+	      { "saturation": -30 },
+	      { "lightness": -2 },
+	      { "weight": 0.2 },
+	      { "hue": "#00a1ff" },
+	      { "visibility": "off" }
+	    ]
+	  },{
+	    "featureType": "administrative",
+	    "elementType": "labels",
+	    "stylers": [
+	      { "visibility": "simplified" },
+	      { "invert_lightness": true }
+	    ]
+	  },{
+	    "featureType": "water",
+	    "elementType": "labels",
+	    "stylers": [
+	      { "visibility": "off" }
+	    ]
+	  },{
+	    "featureType": "administrative.locality",
+	    "stylers": [
+	      { "visibility": "off" }
+	    ]
+	  },{
+	    "featureType": "poi.park",
+	    "stylers": [
+	      { "visibility": "off" }
+	    ]
+	  },{
+	    "featureType": "administrative.locality",
+	    "stylers": [
+	      { "visibility": "simplified" }
+	    ]
+	  },{
+	    "featureType": "road.highway",
+	    "stylers": [
+	      { "visibility": "simplified" },
+	      { "saturation": -100 }
+	    ]
+	  },{
+	  }
+	];
 	function initialize() {
 	        map = new google.maps.Map(document.getElementById('map-canvas'),
 	            mapOptions);
+	        map.setOptions({styles: styles});
 	      }
 	
 
