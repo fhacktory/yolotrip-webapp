@@ -76,7 +76,7 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
 			    	var contentString = "";
 			    	if(photos != undefined) {
 				    	for (var j=0; j<photos.length; j++) {
-				    		contentString += '<img src="'+photos[j].get('file').url()+'" width="300"/><br />';
+				    		contentString += '<img src="'+photos[j].get('file').url()+'" width="300"  onclick="toggleFullScreen(this.src);" /><br />';
 				    	}
 				    }
 			    	if(messages != undefined) {

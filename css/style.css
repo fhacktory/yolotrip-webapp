@@ -21,3 +21,19 @@ h1#roadtripName {
 	font-size: 350%;
 	border-bottom: 3px solid black;
 }
+
+#image-wrapper {
+  background-color: rgba(25, 25, 25, 0.5);
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+#image-wrapper img {
+  background-color: #fff;
+  margin: 100px auto 0;
+  padding: 20px;
+  position: relative;
+}
