@@ -1,10 +1,14 @@
 /* DRAWING ON THE MAP *****************/
-function drawMarker(map, position) {
+function drawMarker(map, position, count) {
+    var icon = "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=" + count + "|FF0000|000000";
 	var marker = new google.maps.Marker({
 	    position: position,
 	    map: map,
-	   });
+        icon: icon
+	});
 	marker.setMap(map);
+
+    return marker;
 }
 
 function setRelation() {
