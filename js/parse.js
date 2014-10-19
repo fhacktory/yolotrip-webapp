@@ -8,9 +8,6 @@ function user_create(username, email, password) {
   user.set("password", password);
   user.set("email", email);
 
-  // other fields can be set just like with Parse.Object
-  user.set("phone", "650-555-0000");
-
   user.signUp(null, {
     success: function(user) {
       // Hooray! Let them use the app now.

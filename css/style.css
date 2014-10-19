@@ -1,1 +1,44 @@
-html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+body {
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+html, body, #map-canvas { 
+	height: 100%; 
+	margin: 0; 
+	padding: 0;
+}
+
+h1#roadtripName {
+	width: 100%;
+	position:fixed;
+	bottom: 0;
+	left: 0;
+	z-index: 1000;
+	padding-left: 50px;
+	padding-bottom:20px;
+	margin-bottom:20px;
+	font-weight: bold;
+	font-size: 350%;
+	border-bottom: 3px solid black;
+}
+
+#image-wrapper {
+  background-color: rgba(25, 25, 25, 0.5);
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+}
+
+#image-wrapper img {
+  background-color: #fff;
+  height: auto;
+  line-height: 100%;
+  margin: 10% auto;
+  overflow: hidden;
+  padding: 20px;
+  position: relative;
+  vertical-align: middle;
+}
