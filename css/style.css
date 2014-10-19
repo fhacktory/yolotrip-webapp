@@ -5,10 +5,12 @@ body {
 html, body, #map-canvas { 
 	height: 100%; 
 	margin: 0; 
+	margin-top: -20px;
 	padding: 0;
+	padding-bottom: 20px;
 }
 
-h1#roadtripName {
+#bar {
 	width: 100%;
 	position:fixed;
 	bottom: 0;
@@ -16,10 +18,35 @@ h1#roadtripName {
 	z-index: 1000;
 	padding-left: 50px;
 	padding-bottom:20px;
+	padding-top: 20px;
 	margin-bottom:20px;
 	font-weight: bold;
-	font-size: 350%;
-	border-bottom: 3px solid black;
+	font-size: 150%;
+	border-bottom: 3px solid rgba(0, 0, 0, 0.6);
+	border-top: 3px solid rgba(0, 0, 0, 0.6);
+	color : rgba(0, 0, 0, 0.8);
+	background: rgba(0, 0, 0, 0.8);
+	text-transform: uppercase;
+	color: white;
+}
+
+h1#roadtripName {
+		float:left;
+		margin: 0;
+		padding: 0;
+		margin-right: 15px;
+}
+
+h1 img {
+	margin-right: 20px;
+	height: 37px;
+}
+
+p#username {
+	color:white;
+	margin: 0;
+			margin-top: 22px;
+
 }
 
 #image-wrapper {

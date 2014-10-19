@@ -98,6 +98,7 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
 	query.equalTo("slug", userslug);
 	query.first().then(function(user) {
 		if(user != undefined) {
+			$("p#username").append("par "+user.get("username"));
 			query = new Parse.Query(Roadtrip);
 			query.equalTo("slug", roadtripslug);
 			query.equalTo("user", user);
@@ -107,11 +108,12 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
 		}
 	}).then(function(roadtrip) {
 		if(roadtrip != null) {
-			$("h1#roadtripName").html(roadtrip.get("title"));
+			$("h1#roadtripName").append(roadtrip.get("title"));
+
 			// locations
 			query = new Parse.Query(Location);
 			query.equalTo("roadtrip", roadtrip);
-			query.descending("createdAt");
+			query.ascending("createdAt");
 			query.include('photosArray');
 			query.include('messages');
 			query.find({
