@@ -111,6 +111,7 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
 			// locations
 			query = new Parse.Query(Location);
 			query.equalTo("roadtrip", roadtrip);
+			query.descending("createdAt");
 			query.include('photosArray');
 			query.include('messages');
 			query.find({
