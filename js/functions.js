@@ -21,7 +21,6 @@ function setRelation() {
 	query = new Parse.Query(Location);
 	query.find({
 	  success: function(results) {
-	  	console.log(results);
 	    query2 = new Parse.Query(Message);
 
 	  	for (var i = 0; i < results.length; i++) { 
