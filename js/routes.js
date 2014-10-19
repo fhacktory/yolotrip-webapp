@@ -138,7 +138,7 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
                         // messages
                         var messages = location.get('messages');
 
-                        var marker = drawMarker(map, { lat: location.get("coordinates").latitude, lng:  location.get("coordinates").longitude }, count);
+                        var marker = drawMarker(map, { lat: location.get("coordinates").latitude, lng:  location.get("coordinates").longitude }, photos.length);
                         count++;
 
                         if (index == lastLocationIndex) {
