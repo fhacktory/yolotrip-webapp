@@ -109,6 +109,7 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
 			query.equalTo("roadtrip", roadtrip);
 			query.include('photosArray');
 			query.include('messages');
+            query.ascending('createdAt');
 			query.find({
 				success: function(savedLocations) {
                     var lastLocationIndex = savedLocations.length - 1;
