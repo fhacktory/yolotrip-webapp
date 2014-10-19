@@ -6,4 +6,4 @@ function toggleFullScreen(src) {
     $('#image-wrapper').attr('style', '');
     $('#image-wrapper img').attr('src', src);
   }
-}
+}d

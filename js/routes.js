@@ -1,7 +1,6 @@
 var AppRouter = Backbone.Router.extend({
     routes: {
         "": "index",
-        "test/:id": "test",
         ":username/roadtrip/:roadtripname": "roadtrip"
     }
 });
@@ -15,9 +14,6 @@ app_router.on('route:index', function(actions) {
 });
 
 app_router.on('route:roadtrip', function(userslug, roadtripslug) {
-    console.log(userslug);
-    console.log(roadtripslug);
-
 	/* GOOGLE APIS ************************/
 	var map = null;
 	var focus = { lat: -30.397, lng: 150.644};
@@ -153,11 +149,10 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
                         }
                         if(messages != undefined) {
                             for (var k=0; k<messages.length; k++) {
-                                console.log(messages[k]);
                                 contentString += '<hr /><p>'+messages[k].get('Message')+'</p>';
                             }
                         }
-                        console.log(contentString);
+
                           marker.contentString = contentString;
                           google.maps.event.addListener(marker, 'click', function() {
                             infowindow.close();
@@ -199,25 +194,5 @@ app_router.on('route:roadtrip', function(userslug, roadtripslug) {
 
 });
 
-// index.html#/test/1
-app_router.on('route:test', function(id) {
-    console.log(id);
-});
-
 // Start Backbone history a necessary step for bookmarkable URL's
 Backbone.history.start();
-
-/*
-var query = new Parse.Query(Parse.Object.extend("Location"));
-query.include('messages');
-query.find({
-	success: function(savedLocations) {
-    console.log('location length'+savedLocations.length);
-    for(var i=0; i<savedLocations.length; i++) {
-    	var photos = savedLocations[i].get('messages');
-    	if (photos)
-        	console.log(photos[0].get('Message'));
-    }
-  }
-});
-*/
